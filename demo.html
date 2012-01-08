@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>JSON-Bind Demo</title>
+  
+  <script type='text/javascript' src='http://code.jquery.com/jquery-1.7.1.js'></script>
+ 
+  <style type='text/css'>
+    
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+$(window).load(function(){
+var jsonString = "{'Name':'Chris Clark','Car':'saab','Check1':true,'Check2':false,'Email':'chris@untrod.com'}";
+jsonData = eval("(" + jsonString + ")");
+
+(function($) {
+    $.fn.BindJson = function(fielddata, cssClassPrefix) {
+        var selectorPrefix = " ." + cssClassPrefix;
+        for (key in fielddata) {
+            var ctl = $(selectorPrefix + key, this);
+            if (ctl.length != 0) {
+                var isTextField = (ctl[0].tagName == "DIV" || ctl[0].tagName == "SPAN" || ctl[0].tagName == "LABEL");
+                if (isTextField) ctl.text(fielddata[key]);
+                if (ctl[0].type == 'checkbox') ctl.attr('checked', (fielddata[key] == true));
+                else ctl.val(fielddata[key]);
+            }
+        }
+    };
+
+})(jQuery);
+
+(function($) {
+    $.fn.ClearDataFields = function(clearClass) {
+        $(":input", this).each(function() {
+            var type = this.type;
+            var tag = this.tagName.toLowerCase();
+            if (type == 'text' || type == 'password' || tag == 'textarea' || type == 'hidden') this.value = "";
+            else if (type == 'checkbox' || type == 'radio') this.checked = false;
+            else if (tag == 'select') this.selectedIndex = 0;
+        });
+        //clearClass needed to clear non-input elements
+        $("." + clearClass, this).text("");
+    };
+})(jQuery);
+});//]]>  
+
+</script>
+
+
+</head>
+<body>
+    <div id="myForm">
+      <div><span style="width:85px; float:left;">Name:</span><label class="dfName clearMe"></label></div>
+   <div style="clear:both;"><span style="width:85px; float:left;">Email:</span><input type="text" class="dfEmail"></input></div>
+   <div style="clear:both;"><span style="width:85px; float:left;">Checked:</span><input type="checkbox" class="dfCheck1"></input></div>
+   <div style="clear:both;"><span style="width:85px; float:left;">Unchecked:</span><input type="checkbox" class="dfCheck2"></input></div>
+   <div style="clear:both;"><span style="width:85px; float:left;">Car:</span><select class="dfCar">
+  <option value=""></option>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+</select></div>
+  </div>
+  <div style="padding-top:10px; cursor:pointer; color:blue; text-decoration:underline;" onClick="$('#myForm').BindJson(jsonData, 'df');">
+   Fill form
+  </div>
+  <div style="padding-top:10px; cursor:pointer; color:blue; text-decoration:underline;" onClick="$('#myForm').ClearDataFields('clearMe');">
+   Clear form
+  </div>
+  
+</body>
+
+
+</html>
+
