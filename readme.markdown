@@ -39,6 +39,6 @@ The form can be cleared like this:
 This will only clear fields with the clearMe CSS class. This is necessary because some forms that are bound (or cleared) are not necessarily form fields, but perhaps labels or spans.
 				  
 You can try it out via the jsfiddle here:
-JSFiddle: http://jsfiddle.net/cbPnq/2/
+JSFiddle: http://jsfiddle.net/cbPnq/3/
 
 Or with demo.html in the repo.
