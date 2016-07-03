@@ -10,14 +10,16 @@
                 ctl = $(selectorPrefix + key, this);
                 fill = fieldData[key];
                 if (ctl.length != 0) {
-                    isTextField = (ctl[0].tagName == "DIV" || ctl[0].tagName == "SPAN" || ctl[0].tagName == "LABEL");
-                    if (isTextField) {
-                        ctl.text(fill);
-                    } else if (ctl[0].type == 'checkbox') {
-                        ctl.attr('checked', (fill == true));
-                    } else {
-                        ctl.val(fill);
-                    }
+                    $(ctl).each(function() {
+                        isTextField = ($(this).is("DIV") || $(this).is("SPAN") || $(this).is("LABEL"));
+                        if (isTextField) {
+                            $(this).text(fill);
+                        } else if ($(this).prop('type') == 'checkbox') {
+                            $(this).attr('checked', (fill == true));
+                        } else {
+                            $(this).val(fill);
+                        }
+                    });
                 }
             }
         }
@@ -29,7 +31,7 @@
         $(":input", this).each(function () {
             var type = this.type,
                 tag = this.tagName.toLowerCase();
-            if (type == 'text' || type == 'password' || tag == 'textarea' || type == 'hidden') {
+            if (type == 'text' || type == 'password' || type == 'tel' || type == 'date' || type == 'email' || tag == 'textarea' || type == 'hidden' || type == 'number') {
                 this.value = "";
             } else if (type == 'checkbox' || type == 'radio') {
                 this.checked = false;
